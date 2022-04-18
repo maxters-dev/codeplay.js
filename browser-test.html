@@ -1,0 +1,78 @@
+<html>
+  <head>
+    <style>
+      body{
+        padding: 0;
+        margin: 0;
+        display: flex;
+        width: 100%;
+      }
+      #editor{
+        display: flex;
+        flex-direction: column;
+        flex: 0 0 400px;
+        padding: 0;
+        border: 0;
+      }
+      #editor textarea{
+        background-color: white;
+        width: 100%;
+        height: 300px;
+      }
+      #codeTarget{
+        flex: 1;
+        width: 100%;
+        height: 100vh;
+        resize: horizontal;
+      }
+    </style>
+    <script src="./dist/esbuild/browser.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const iframe = document.querySelector('#codeTarget');
+
+        const codeHandler = () => {
+
+          const js = document.querySelector('#js').value;
+          const css = document.querySelector('#css').value;
+          const html = document.querySelector('#html').value;
+
+          sandbox(iframe, {
+            js, css, html
+          })
+        };
+
+        document.querySelector('#editor').addEventListener('input', codeHandler)
+
+        codeHandler()
+        
+      })
+    </script>
+  </head>
+  <body>
+    <iframe frameborder="0" id="codeTarget"></iframe>
+    <form id="editor">
+      <textarea id="html" placeholder="HTML">&lt;div class="test"&gt;Testing&lt;/div&gt;</textarea>
+      <textarea id="css" placeholder="CSS">
+body{
+  margin: 0;
+}
+ 
+.test{
+  background-color: green;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+}</textarea>
+      <textarea id="js" placeholder="Javascript">
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelector('.test').addEventListener('click', (el) => {
+    el.target.style.backgroundColor = 'orangered';
+  })
+})
+      </textarea>
+    </form>
+  </body>
+</html>
